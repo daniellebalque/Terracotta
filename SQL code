@@ -1,0 +1,66 @@
+SELECT
+ COUNT(*) 
+FROM 
+  terracotta.survey
+
+SELECT
+ plant_types,
+ COUNT(*) 
+FROM 
+  terracotta.survey
+GROUP BY
+  plant_types
+
+SELECT
+ plant_types,
+ COUNT(*) as n_plant_type
+FROM 
+  terracotta.survey
+GROUP BY
+  plant_types
+ORDER BY
+  n_plant_type DESC
+
+SELECT 
+    reason_for_purchase,
+    COUNT(*) AS response_count
+FROM 
+    terracotta.survey
+GROUP BY 
+    reason_for_purchase
+ORDER BY 
+    response_count DESC;
+
+SELECT 
+    reason_for_purchase,
+    COUNT(*) AS response_count
+FROM 
+    terracotta.survey
+GROUP BY 
+    reason_for_purchase
+HAVING 
+    COUNT(*) >= 30
+ORDER BY 
+    response_count DESC;
+
+SELECT 
+    reason_for_purchase_words,
+    reason_for_purchase,
+    CASE 
+        WHEN reason_for_purchase_words ILIKE '%pet%' OR reason_for_purchase_words ILIKE '%dog%' OR reason_for_purchase_words ILIKE '%cat%' OR reason_for_purchase_words ILIKE '%non-toxic%' THEN 'pet-friendly'
+        WHEN reason_for_purchase_words ILIKE '%child%' OR reason_for_purchase_words ILIKE '%toddler%' OR reason_for_purchase_words ILIKE '%safe for children%' THEN 'safe for children'
+        ELSE 'other'
+    END AS categorized_reason
+FROM 
+    terracotta.survey
+WHERE 
+    reason_for_purchase_words ILIKE '%pet%' 
+    OR reason_for_purchase_words ILIKE '%dog%' 
+    OR reason_for_purchase_words ILIKE '%cat%' 
+    OR reason_for_purchase_words ILIKE '%non-toxic%' 
+    OR reason_for_purchase_words ILIKE '%child%' 
+    OR reason_for_purchase_words ILIKE '%toddler%' 
+    OR reason_for_purchase_words ILIKE '%safe for children%'
+ORDER BY 
+    categorized_reason;
+
